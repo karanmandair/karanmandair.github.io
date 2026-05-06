@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Karan Mandair — Finance & Data Analyst</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #050810;
+      --surface: #0d1117;
+      --surface2: #161b27;
+      --surface3: #1c2333;
+      --border: rgba(255,255,255,0.06);
+      --border2: rgba(255,255,255,0.11);
+      --accent: #2563eb;
+      --accent-light: #60a5fa;
+      --accent-glow: rgba(37,99,235,0.15);
+      --green: #10b981;
+      --green-dim: rgba(16,185,129,0.12);
+      --text: #e6edf3;
+      --muted: #7d8590;
+      --muted2: #b0bac5;
+      --mono: 'JetBrains Mono', monospace;
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .grid-bg {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 0%, transparent 100%);
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0 6vw; height: 60px;
+      background: rgba(5,8,16,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--mono); font-size: 0.85rem; color: var(--accent-light); }
+    .nav-logo span { color: var(--muted); }
+    .nav-links { display: flex; gap: 0.25rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: 0.82rem; font-weight: 500;
+      padding: 0.4rem 0.8rem; border-radius: var(--radius-sm);
+      transition: all 0.15s;
+    }
+    .nav-links a:hover { color: var(--text); background: var(--surface2); }
+    .nav-cta { background: var(--accent); color: #fff !important; }
+    .nav-cta:hover { background: #1d4ed8 !important; }
+    @media (max-width: 768px) { .nav-links { display: none; } }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 7rem 6vw 5rem;
+      position: relative; overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute; top: 10%; right: 5%; width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(37,99,235,0.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: 1100px; position: relative; z-index: 1;
+      display: flex; align-items: center; gap: 5rem; width: 100%;
+    }
+    .hero-text { flex: 1; }
+    .hero-photo {
+      flex-shrink: 0; width: 260px; height: 320px;
+      border-radius: 18px; overflow: hidden;
+      border: 1px solid var(--border2);
+      box-shadow: 0 0 60px rgba(37,99,235,0.12);
+      position: relative;
+    }
+    .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+    .hero-photo::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 60%, rgba(5,8,16,0.4));
+    }
+    @media (max-width: 768px) {
+      .hero-inner { flex-direction: column-reverse; gap: 2rem; }
+      .hero-photo { width: 160px; height: 200px; }
+    }
+
+    .status-pill {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--green-dim); border: 1px solid rgba(16,185,129,0.2);
+      color: var(--green); font-family: var(--mono);
+      font-size: 0.75rem; font-weight: 500;
+      padding: 0.3rem 0.85rem; border-radius: 999px; margin-bottom: 1.5rem;
+    }
+    .status-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green); box-shadow: 0 0 6px var(--green);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+    h1 {
+      font-size: clamp(2.6rem, 6vw, 4.5rem);
+      font-weight: 800; letter-spacing: -0.04em;
+      line-height: 1.05; color: var(--text); margin-bottom: 1.2rem;
+    }
+    .name-accent { color: var(--accent-light); }
+    .hero-desc {
+      font-size: 1.05rem; color: var(--muted2);
+      max-width: 520px; margin-bottom: 2rem; line-height: 1.75;
+    }
+    .btn-row { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      padding: 0.65rem 1.4rem; border-radius: var(--radius-sm);
+      font-size: 0.87rem; font-weight: 600; cursor: pointer;
+      text-decoration: none; transition: all 0.18s; border: 1px solid transparent;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #1d4ed8; box-shadow: 0 0 20px rgba(37,99,235,0.3); transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--muted2); border-color: var(--border2); }
+    .btn-outline:hover { color: var(--text); border-color: rgba(255,255,255,0.2); background: var(--surface2); }
+
+    /* ── SECTIONS ── */
+    section { padding: 5.5rem 6vw; position: relative; z-index: 1; }
+    .alt-bg { background: var(--surface); }
+    .section-tag {
+      font-family: var(--mono); font-size: 0.72rem; font-weight: 500;
+      color: var(--accent-light); letter-spacing: 0.06em; text-transform: uppercase;
+      margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;
+    }
+    .section-tag::before { content: '//'; color: var(--muted); font-size: 0.8rem; }
+    h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 800; letter-spacing: -0.03em; color: var(--text); margin-bottom: 0.5rem;
+    }
+    .section-sub { color: var(--muted); font-size: 0.95rem; max-width: 480px; margin-bottom: 0; }
+
+    /* ── CARDS (projects & experience) ── */
+    .card-list { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1rem; }
+    .card {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.6rem 1.8rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .card:hover { border-color: var(--border2); background: var(--surface3); }
+    .card-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 1rem; flex-wrap: wrap; margin-bottom: 0.8rem;
+    }
+    .card-role { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.2rem; }
+    .card-org { font-size: 0.82rem; color: var(--accent-light); font-family: var(--mono); }
+    .card-date {
+      font-family: var(--mono); font-size: 0.73rem; color: var(--muted);
+      background: var(--surface3); border: 1px solid var(--border);
+      padding: 0.22rem 0.65rem; border-radius: 999px; white-space: nowrap; flex-shrink: 0;
+    }
+    .card-body { font-size: 0.88rem; color: var(--muted2); line-height: 1.75; margin-bottom: 1rem; }
+    .card-body ul { padding-left: 1.1rem; }
+    .card-body li { margin-bottom: 0.35rem; }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag {
+      font-family: var(--mono); font-size: 0.68rem;
+      padding: 0.2rem 0.6rem; border-radius: var(--radius-sm);
+      background: var(--accent-glow); border: 1px solid rgba(37,99,235,0.2);
+      color: var(--accent-light);
+    }
+
+    /* ── EDUCATION ── */
+    .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-top: 2.5rem; }
+    .edu-card {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.6rem; position: relative; overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .edu-card:hover { border-color: rgba(37,99,235,0.25); transform: translateY(-2px); }
+    .edu-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+    }
+    .edu-icon { font-size: 1.4rem; margin-bottom: 0.8rem; }
+    .edu-degree { font-weight: 700; font-size: 0.95rem; color: var(--text); margin-bottom: 0.2rem; line-height: 1.35; }
+    .edu-school { color: var(--accent-light); font-size: 0.8rem; font-family: var(--mono); margin-bottom: 0.2rem; }
+    .edu-meta { font-size: 0.75rem; color: var(--muted); font-family: var(--mono); margin-bottom: 0.9rem; }
+    .edu-badges { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .badge {
+      font-size: 0.68rem; padding: 0.2rem 0.6rem; border-radius: 999px;
+      background: rgba(96,165,250,0.08); border: 1px solid rgba(96,165,250,0.18);
+      color: var(--accent-light);
+    }
+    @media (max-width: 600px) { .edu-grid { grid-template-columns: 1fr; } }
+
+    /* ── SKILLS ── */
+    .skills-wrap { margin-top: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    @media (max-width: 700px) { .skills-wrap { grid-template-columns: 1fr; } }
+    .skill-group {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.4rem;
+    }
+    .skill-group-title {
+      font-family: var(--mono); font-size: 0.7rem; font-weight: 500; color: var(--muted);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);
+    }
+    .skill-pills { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .skill-pill {
+      font-size: 0.78rem; padding: 0.3rem 0.75rem; border-radius: var(--radius-sm);
+      background: var(--surface3); border: 1px solid var(--border2);
+      color: var(--muted2); font-weight: 500; transition: all 0.15s;
+    }
+    .skill-pill:hover { color: var(--text); border-color: rgba(96,165,250,0.3); }
+    .skill-pill.hi { background: var(--accent-glow); border-color: rgba(37,99,235,0.25); color: var(--accent-light); }
+
+    /* ── CONTACT ── */
+    .contact-inner { max-width: 520px; }
+    .contact-desc { color: var(--muted2); line-height: 1.8; font-size: 0.95rem; margin-bottom: 1.5rem; }
+    .contact-email-link {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      font-family: var(--mono); font-size: 0.88rem; color: var(--accent-light);
+      text-decoration: none; padding: 0.75rem 1.2rem;
+      background: var(--accent-glow); border: 1px solid rgba(37,99,235,0.2);
+      border-radius: var(--radius-sm); transition: all 0.2s; margin-bottom: 1rem;
+    }
+    .contact-email-link:hover { background: rgba(37,99,235,0.2); border-color: rgba(37,99,235,0.4); }
+    .contact-social { display: flex; gap: 0.6rem; }
+    .social-chip {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      padding: 0.5rem 1rem; border-radius: var(--radius-sm);
+      background: var(--surface2); border: 1px solid var(--border2);
+      color: var(--muted2); font-size: 0.8rem; font-weight: 500;
+      text-decoration: none; transition: all 0.15s;
+    }
+    .social-chip:hover { color: var(--text); border-color: rgba(255,255,255,0.18); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 1.5rem 6vw; border-top: 1px solid var(--border);
+      text-align: center; position: relative; z-index: 1;
+    }
+    .footer-text { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0; transform: translateY(22px);
+      transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><span>~/</span>karan-mandair</div>
+  <ul class="nav-links">
+    <li><a href="#projects">research</a></li>
+    <li><a href="#experience">experience</a></li>
+    <li><a href="#education">education</a></li>
+    <li><a href="#skills">skills</a></li>
+    <li><a href="#contact" class="nav-cta">contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="status-pill">
+        <span class="status-dot"></span>
+        open to opportunities · available May 2026
+      </div>
+      <h1>Karan<br /><span class="name-accent">Mandair</span></h1>
+      <p class="hero-desc">
+        Finance &amp; data analyst with experience in financial modeling, Python, SQL, R, and Tableau.
+        Graduate economist at ODU applying causal inference and econometrics to real-world problems.
+        As a former Division I athlete, I developed discipline, accountability, and the ability to perform under pressure — qualities I'm driven to bring to my professional career.
+      </p>
+      <div class="btn-row">
+        <a href="#contact" class="btn btn-primary">Get in touch →</a>
+        <a href="resume.docx" class="btn btn-outline" download target="_blank">↓ Resume</a>
+        <a href="#projects" class="btn btn-outline">View research</a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <img src="Photo.jpg" alt="Karan Mandair" />
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS / RESEARCH -->
+<section id="projects">
+  <div class="section-tag">research</div>
+  <h2>My work.</h2>
+  <p class="section-sub">Research papers and empirical studies.</p>
+
+  <div class="card-list reveal">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-role">Causal Inference &amp; Labor Market Analysis</div>
+          <div class="card-org">M.A. Capstone · Medicaid Expansion &amp; Healthcare Worker Wages</div>
+        </div>
+        <a href="capstone_paper copy.html" target="_blank" class="btn btn-outline" style="font-size:0.78rem;padding:0.35rem 0.9rem;flex-shrink:0;">↗ View Paper</a>
+      </div>
+      <div class="card-body">
+        <ul>
+          <li>Built a production-ready data pipeline processing 25M+ observations from ACS/IPUMS microdata — data cleaning, variable construction, and sample filtering.</li>
+          <li>Applied difference-in-differences to estimate Medicaid expansion's impact on healthcare wages; validated with robustness checks and presented to faculty.</li>
+        </ul>
+      </div>
+      <div class="card-tags">
+        <span class="tag">Difference-in-Differences</span>
+        <span class="tag">Panel Data</span>
+        <span class="tag">Health Economics</span>
+        <span class="tag">Labor Economics</span>
+        <span class="tag">ACS/IPUMS</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-role">The Impact of Mercedes-Benz Stadium on Crime in Atlanta</div>
+          <div class="card-org">Research Paper · Urban &amp; Infrastructure Economics</div>
+        </div>
+        <a href="The Impact of Mercedes-Benz Stadium on Crime in Atlanta Neighborhoods.pdf" target="_blank" class="btn btn-outline" style="font-size:0.78rem;padding:0.35rem 0.9rem;flex-shrink:0;">↗ View Paper</a>
+      </div>
+      <div class="card-body">
+        Empirical analysis examining how the construction of Mercedes-Benz Stadium affected crime rates in surrounding Atlanta neighborhoods, using spatial and temporal regression methods.
+      </div>
+      <div class="card-tags">
+        <span class="tag">Regression Analysis</span>
+        <span class="tag">Urban Economics</span>
+        <span class="tag">Crime Economics</span>
+        <span class="tag">Infrastructure</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-role">Predictive Macroeconomic Modeling for Strategic Planning</div>
+          <div class="card-org">Time Series Analysis · ECON 707 · Spring 2026</div>
+        </div>
+        <a href="econ707_final_report_ copy.pdf" target="_blank" class="btn btn-outline" style="font-size:0.78rem;padding:0.35rem 0.9rem;flex-shrink:0;">↗ View Paper</a>
+      </div>
+      <div class="card-body">
+        Developed ARIMA, VAR, and state-space models in R to forecast CPI trends. Created automated summary tables and charts to visualize economic forecasts for policy analysis.
+      </div>
+      <div class="card-tags">
+        <span class="tag">ARIMA / VAR</span>
+        <span class="tag">R</span>
+        <span class="tag">Time Series</span>
+        <span class="tag">CPI Forecasting</span>
+        <span class="tag">Policy Analysis</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="alt-bg">
+  <div class="section-tag">experience</div>
+  <h2>Where I've worked.</h2>
+  <p class="section-sub">Internships and research roles.</p>
+
+  <div class="card-list reveal">
+    <div class="card" style="background:var(--surface3);">
+      <div class="card-header">
+        <div>
+          <div class="card-role">Business &amp; Financial Analyst Intern</div>
+          <div class="card-org">MP Foods · Commercial Food Distributor</div>
+        </div>
+        <div class="card-date">May 2023 – Aug 2023</div>
+      </div>
+      <div class="card-body">
+        <ul>
+          <li>Engineered automated reporting pipelines in Python and SQL across 1,000+ SKUs, reducing manual processing time by 30% and accelerating weekly pricing decisions from 3 days to same-day.</li>
+          <li>Identified that 22% of customers generated 40% of total revenue via Pareto analysis; findings directly informed Q4 revenue planning.</li>
+          <li>Built executive dashboards in Tableau to track operational KPIs; used by leadership for weekly strategic planning.</li>
+          <li>Designed quantitative forecasting models for inventory and revenue, validated against 12 months of historical data.</li>
+        </ul>
+      </div>
+      <div class="card-tags">
+        <span class="tag">Python</span>
+        <span class="tag">SQL</span>
+        <span class="tag">Tableau</span>
+        <span class="tag">Financial Modeling</span>
+        <span class="tag">Revenue Forecasting</span>
+        <span class="tag">Pareto Analysis</span>
+      </div>
+    </div>
+
+    <div class="card" style="background:var(--surface3);">
+      <div class="card-header">
+        <div>
+          <div class="card-role">Business Analyst Intern</div>
+          <div class="card-org">Brookfields Winery</div>
+        </div>
+        <div class="card-date">May 2022 – Aug 2022</div>
+      </div>
+      <div class="card-body">
+        <ul>
+          <li>Analyzed seasonal revenue trends and production costs across 8–12 SKUs, identifying key margin drivers for pricing strategy across wholesale and cellar door channels.</li>
+          <li>Built Excel financial models to forecast harvest-season cash flow; conducted variance analysis on a ~$400K annual operating budget.</li>
+          <li>Built KPI dashboards in Excel tracking sales volume, margin per label, and channel performance — used weekly by owner for inventory and pricing decisions.</li>
+        </ul>
+      </div>
+      <div class="card-tags">
+        <span class="tag">Excel</span>
+        <span class="tag">Variance Analysis</span>
+        <span class="tag">Cash Flow Forecasting</span>
+        <span class="tag">KPI Dashboards</span>
+        <span class="tag">Margin Analysis</span>
+      </div>
+    </div>
+
+    <div class="card" style="background:var(--surface3);">
+      <div class="card-header">
+        <div>
+          <div class="card-role">Graduate Research &amp; Teaching Assistant</div>
+          <div class="card-org">Old Dominion University · Strome College of Business</div>
+        </div>
+        <div class="card-date">Aug 2024 – Present</div>
+      </div>
+      <div class="card-body">
+        <ul>
+          <li>Delivers ad hoc data analysis for senior faculty using Excel (dynamic arrays, XLOOKUP, pivot tables) with 24–48 hour turnarounds.</li>
+          <li>Analyzes marketing performance across Instagram and LinkedIn, delivering monthly reports with content strategy recommendations to department leadership.</li>
+        </ul>
+      </div>
+      <div class="card-tags">
+        <span class="tag">Excel</span>
+        <span class="tag">Data Analysis</span>
+        <span class="tag">Marketing Analytics</span>
+        <span class="tag">Research</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-tag">education</div>
+  <h2>Academic background.</h2>
+  <p class="section-sub">Dual-degree economist with a business foundation.</p>
+  <div class="edu-grid reveal">
+    <div class="edu-card">
+      <div class="edu-icon">🎓</div>
+      <div class="edu-degree">M.A. Econometrics &amp; Quantitative Economics</div>
+      <div class="edu-school">Old Dominion University</div>
+      <div class="edu-meta">2024 – May 2026 · GPA: 3.63 / 4.0</div>
+      <div class="edu-badges">
+        <span class="badge">Graduate Research Assistant</span>
+        <span class="badge">Econometrics</span>
+        <span class="badge">Causal Inference</span>
+      </div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-icon">🏛️</div>
+      <div class="edu-degree">B.S. Business Administration</div>
+      <div class="edu-school">Old Dominion University</div>
+      <div class="edu-meta">2020 – May 2024 · GPA: 3.56 / 4.0 · Cum Laude</div>
+      <div class="edu-badges">
+        <span class="badge">Cum Laude</span>
+        <span class="badge">Dean's List</span>
+        <span class="badge">Sun Belt Honor Roll</span>
+        <span class="badge">D1 Athlete</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="alt-bg">
+  <div class="section-tag">skills</div>
+  <h2>Technical toolkit.</h2>
+  <p class="section-sub">Tools and methods I use in finance and data analysis.</p>
+
+  <div class="skills-wrap reveal">
+    <div class="skill-group">
+      <div class="skill-group-title">// programming & data</div>
+      <div class="skill-pills">
+        <span class="skill-pill hi">Python (pandas, NumPy)</span>
+        <span class="skill-pill hi">SQL (CTEs, Window Functions)</span>
+        <span class="skill-pill hi">R (ggplot2, forecast)</span>
+        <span class="skill-pill">ETL Pipelines</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">// excel & financial modeling</div>
+      <div class="skill-pills">
+        <span class="skill-pill hi">Advanced Excel</span>
+        <span class="skill-pill">Dynamic Arrays / XLOOKUP</span>
+        <span class="skill-pill">Power Query</span>
+        <span class="skill-pill">Pivot Tables & Macros</span>
+        <span class="skill-pill">Scenario Analysis</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">// bi & visualization</div>
+      <div class="skill-pills">
+        <span class="skill-pill hi">Tableau</span>
+        <span class="skill-pill hi">Power BI</span>
+        <span class="skill-pill">Executive Dashboards</span>
+        <span class="skill-pill">Automated Reporting</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">// analytical methods</div>
+      <div class="skill-pills">
+        <span class="skill-pill hi">Difference-in-Differences</span>
+        <span class="skill-pill">ARIMA / VAR</span>
+        <span class="skill-pill">Variance Analysis</span>
+        <span class="skill-pill">Cash Flow Forecasting</span>
+        <span class="skill-pill">Margin Analysis</span>
+        <span class="skill-pill">P&amp;L Reporting</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-tag">contact</div>
+  <h2>Let's connect.</h2>
+  <p class="section-sub">Open to full-time roles starting May 2026.</p>
+
+  <div class="contact-inner reveal" style="margin-top:2rem;">
+    <p class="contact-desc">
+      I'm actively seeking opportunities in economic consulting, financial analysis,
+      risk analysis, and data analytics. I bring rigorous quantitative skills,
+      real internship experience, and a track record of performing under pressure. Let's talk.
+    </p>
+    <a href="mailto:karanmandair012@gmail.com" class="contact-email-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      karanmandair012@gmail.com
+    </a>
+    <div class="contact-social">
+      <a href="https://www.linkedin.com/in/karan-mandair-618095352/" target="_blank" class="social-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-text">© 2026 Karan Mandair</div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.background = window.scrollY > 50
+      ? 'rgba(5,8,16,0.97)' : 'rgba(5,8,16,0.85)';
+  }, { passive: true });
+</script>
+</body>
+</html>
